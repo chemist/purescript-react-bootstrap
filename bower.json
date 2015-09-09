@@ -1,0 +1,21 @@
+{
+  "name": "purescript-react-bootstrap",
+  "version": "0.0.1",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-console": "^0.1.0",
+    "purescript-react": "0.4.0"
+  },
+  "devDependencies": {
+    "react": "0.13.3",
+    "react-bootstrap": "0.25.1"
+  }
+}
