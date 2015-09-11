@@ -32,7 +32,7 @@ main = body' >>= render ui
   sizeButtonToolbar size txt =
     buttonToolbar_ $ buttonPair _{ bsStyle = Primary, bsSize = size } _{ bsSize = size } txt
   leftMiddleRight props =
-    buttonGroup (props defaultProps)
+    buttonGroup (props buttonGroupDefaults)
     [ button_ [ text "Left" ]
     , button_ [ text "Middle" ]
     , button_ [ text "Right" ]
@@ -72,7 +72,7 @@ main = body' >>= render ui
          [ button (buttonDefaults { href = "#"}) [ text "Link" ]
          , button_ [ text "Button" ]
          ]
-       , div'[ leftMiddleRight id]
+       , div' [ leftMiddleRight id]
        , div'
          [
            buttonToolbar_
@@ -95,6 +95,19 @@ main = body' >>= render ui
          , buttonToolbar_ [ leftMiddleRight id ]
          , buttonToolbar_ [ leftMiddleRight _{ bsSize = Just Small } ]
          , buttonToolbar_ [ leftMiddleRight _{ bsSize = Just XSmall } ]
+         ]
+       , div'
+         [ buttonGroup_
+           [ button_ [ text "1" ]
+           , button_ [ text "2" ]
+           , button_ [ text "3" ]
+           , dropdownButton (dropdownButtonDefaults { title = text "Dropdown", id = "bg-nested-dropdown" })
+             [ menuItem_ -- { eventKey: "1" }
+               [ text "Dropdown link" ]
+             , menuItem_ -- { eventKey: "1" }
+               [ text "Dropdown link" ]
+             ]
+           ]
          ]
        ]
 
