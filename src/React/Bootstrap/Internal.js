@@ -2,6 +2,13 @@
 
 // module React.Bootstrap.Internal
 
+// pretty raw stuff, but it's all there for convenience and type safety
+// hope it doesn't affect performance too much
+// the instanceof checks are bit tricky, they require appropriate definitions
+// to be generated, it affects PS definition, see Button.purs, definition of
+// button_ which cannot be made pointfree because it then would try to evaluate
+// convertButtonProps without certain definitions being yet avaliable (PS["React.Bootstrap.Button"].Button for example)
+
 function unwrapMaybe(res, props, k) {
   var Just = PS["Data.Maybe"].Just;
   var Nothing = PS["Data.Maybe"].Nothing;
@@ -74,12 +81,14 @@ function convertProps(f) {
         if(commonProp(res, k))
           continue;
 
-        f(res, k);
+        if(f) f(res, k);
     }
 
     return res;
   }
 }
+
+exports.convertProps = convertProps();
 
 exports.convertButtonProps = convertProps(function (res, k) {
   function buttonType(prop) {

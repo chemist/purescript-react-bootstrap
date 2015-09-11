@@ -49,13 +49,14 @@ import qualified React.Bootstrap as RB
 main = body' >>= render ui
   where
   ui :: ReactElement
-  ui = RD.div' [ RB.button_ [ RD.text "Default" ]
-               , RB.button (RB.buttonDefaults { bsStyle = RB.Primary }) [ RD.text "Primary" ]
-               , RB.button (RB.buttonDefaults { bsStyle = RB.Success }) [ RD.text "Warning" ]
-               , RB.button (RB.buttonDefaults { bsStyle = RB.Info }) [ RD.text "Info" ]
-               , RB.button (RB.buttonDefaults { bsStyle = RB.Danger }) [ RD.text "Danger" ]
-               , RB.button (RB.buttonDefaults { bsStyle = RB.Link, href = "http://react-bootstrap.github.io/" }) [ RD.text "Link" ]
-               ]
+  ui = RB.buttonToolbar_
+       [ RB.button_ [ RD.text "Default" ]
+       , RB.button (RB.buttonDefaults { bsStyle = RB.Primary }) [ RD.text "Primary" ]
+       , RB.button (RB.buttonDefaults { bsStyle = RB.Success }) [ RD.text "Warning" ]
+       , RB.button (RB.buttonDefaults { bsStyle = RB.Info }) [ RD.text "Info" ]
+       , RB.button (RB.buttonDefaults { bsStyle = RB.Danger }) [ RD.text "Danger" ]
+       , RB.button (RB.buttonDefaults { bsStyle = RB.Link, href = "http://react-bootstrap.github.io/" }) [ RD.text "Link" ]
+       ]
 
   body' :: forall eff. Eff (dom :: DOM | eff) Element
   body' = do
