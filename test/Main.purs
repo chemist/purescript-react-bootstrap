@@ -1,6 +1,6 @@
 module Test.Main where
 
-import Prelude
+import Prelude hiding (div)
 
 import Control.Monad.Eff
 import Control.Monad.Eff.Console
@@ -18,45 +18,56 @@ import DOM.HTML.Window (document)
 import DOM.Node.Types (Element())
 
 import React
+import React.DOM (div, div', text)
+import React.Bootstrap
 
-import qualified React.DOM as RD
 import qualified React.DOM.Props as RP
-import qualified React.Bootstrap as RB
 
-  -- <ButtonToolbar>
-  --   {/* Standard button */}
-  --   <Button>Default</Button>
-
-  --   {/* Provides extra visual weight and identifies the primary action in a set of buttons */}
-  --   <Button bsStyle='primary'>Primary</Button>
-
-  --   {/* Indicates a successful or positive action */}
-  --   <Button bsStyle='success'>Success</Button>
-
-  --   {/* Contextual button for informational alert messages */}
-  --   <Button bsStyle='info'>Info</Button>
-
-  --   {/* Indicates caution should be taken with this action */}
-  --   <Button bsStyle='warning'>Warning</Button>
-
-  --   {/* Indicates a dangerous or potentially negative action */}
-  --   <Button bsStyle='danger'>Danger</Button>
-
-  --   {/* Deemphasize a button by making it look like a link while maintaining button behavior */}
-  --   <Button bsStyle='link'>Link</Button>
-  -- </ButtonToolbar>
-  
 main = body' >>= render ui
   where
+  buttonPair props1 props2 txt =
+    [ button (props1 buttonDefaults) [ text txt ]
+    , button (props2 buttonDefaults) [ text txt ]
+    ]
+  sizeButtonToolbar size txt =
+    buttonToolbar_ $ buttonPair _{ bsStyle = Primary, bsSize = size } _{ bsSize = size } txt
+
   ui :: ReactElement
-  ui = RB.buttonToolbar_
-       [ RB.button_ [ RD.text "Default" ]
-       , RB.button (RB.buttonDefaults { bsStyle = RB.Primary }) [ RD.text "Primary" ]
-       , RB.button (RB.buttonDefaults { bsStyle = RB.Success }) [ RD.text "Warning" ]
-       , RB.button (RB.buttonDefaults { bsStyle = RB.Info }) [ RD.text "Info" ]
-       , RB.button (RB.buttonDefaults { bsStyle = RB.Danger }) [ RD.text "Danger" ]
-       , RB.button (RB.buttonDefaults { bsStyle = RB.Link, href = "http://react-bootstrap.github.io/" }) [ RD.text "Link" ]
+  ui = div'
+       [ buttonToolbar_
+         [ button_ [ text "Default" ]
+         , button (buttonDefaults { bsStyle = Primary }) [ text "Primary" ]
+         , button (buttonDefaults { bsStyle = Success }) [ text "Success" ]
+         , button (buttonDefaults { bsStyle = Info }) [ text "Info" ]
+         , button (buttonDefaults { bsStyle = Warning }) [ text "Warning" ]
+         , button (buttonDefaults { bsStyle = Danger }) [ text "Danger" ]
+         , button (buttonDefaults { bsStyle = Link, href = "http://react-bootstrap.github.io/" }) [ text "Link" ]
+         ]
+       , div'
+         [ sizeButtonToolbar (Just Large) "Large button"
+         , sizeButtonToolbar Nothing "Default button"
+         , sizeButtonToolbar (Just Small) "Small button"
+         , sizeButtonToolbar (Just XSmall) "Extra small button"
+         ]
+       , div [ RP.className "well", RP.style { maxWidth: 400, margin: "0 auto 10px" }]
+         [ button (buttonDefaults { bsStyle = Primary, bsSize= Just Large, block = true }) [ text "Block level button"]
+         , button (buttonDefaults { bsSize = Just Large, block = true }) [ text "Block level button" ]
+         ]
+       , div'
+         [ buttonToolbar_
+           [ button (buttonDefaults { bsStyle = Primary, bsSize = Just Large, active = true}) [ text "Primary button" ]
+           , button (buttonDefaults { bsSize = Just Large, active = true}) [ text "Primary button" ]
+           ]
+         ]
+       , div'
+         [ buttonToolbar_ $ buttonPair _{ bsStyle = Primary, bsSize = Just Large, disabled = true } _{ bsSize = Just Large, disabled = true } "Primary button"
+         ]
+       , div'
+         [ button (buttonDefaults { href = "#"}) [ text "Link" ]
+         , button_ [ text "Button" ]
+         ]
        ]
+
 
   body' :: forall eff. Eff (dom :: DOM | eff) Element
   body' = do
