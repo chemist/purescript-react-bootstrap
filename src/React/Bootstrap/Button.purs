@@ -6,6 +6,8 @@ module React.Bootstrap.Button
   , button_
   , buttonToolbar
   , buttonToolbar_
+  , buttonGroup
+  , buttonGroup_
   ) where
 
 import Prelude ((<<<))
@@ -57,3 +59,8 @@ foreign import buttonToolbarClass :: ReactClass { | BootstrapProps }
 
 buttonToolbar_ children = createElement buttonToolbarClass (convertProps defaultProps) children
 buttonToolbar = createElement buttonToolbarClass <<< convertProps
+
+foreign import buttonGroupClass :: ReactClass { | BootstrapProps }
+
+buttonGroup_ children = createElement buttonGroupClass (convertProps defaultProps) children
+buttonGroup = createElement buttonGroupClass <<< convertProps

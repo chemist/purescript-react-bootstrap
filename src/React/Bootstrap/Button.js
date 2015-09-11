@@ -6,3 +6,4 @@
 
 exports.buttonClass = ReactBootstrap.Button;
 exports.buttonToolbarClass = ReactBootstrap.ButtonToolbar;
+exports.buttonGroupClass = ReactBootstrap.ButtonGroup;
