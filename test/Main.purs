@@ -25,14 +25,18 @@ import qualified React.DOM.Props as RP
 
 main = body' >>= render ui
   where
+  buttonPair :: forall a b. a -> b -> String -> Array ReactElement
   buttonPair props1 props2 txt =
-    [ button (props1 buttonDefaults) [ text txt ]
-    , button (props2 buttonDefaults) [ text txt ]
+    [ button props1 [ text txt ]
+    , button props2 [ text txt ]
     ]
-  sizeButtonToolbar size txt =
-    buttonToolbar_ $ buttonPair _{ bsStyle = Primary, bsSize = size } _{ bsSize = size } txt
+  sizeButtonToolbar (Just size) txt =
+    buttonToolbar_ $ buttonPair { bsStyle: "primary", bsSize: size } { bsSize: size } txt
+  sizeButtonToolbar Nothing txt =
+    buttonToolbar_ $ buttonPair { bsStyle: "primary" } {} txt
+  leftMiddleRight :: forall props. props -> ReactElement
   leftMiddleRight props =
-    buttonGroup (props buttonGroupDefaults)
+    buttonGroup props
     [ button_ [ text "Left" ]
     , button_ [ text "Middle" ]
     , button_ [ text "Right" ]
@@ -42,37 +46,37 @@ main = body' >>= render ui
   ui = div'
        [ buttonToolbar_
          [ button_ [ text "Default" ]
-         , button (buttonDefaults { bsStyle = Primary }) [ text "Primary" ]
-         , button (buttonDefaults { bsStyle = Success }) [ text "Success" ]
-         , button (buttonDefaults { bsStyle = Info }) [ text "Info" ]
-         , button (buttonDefaults { bsStyle = Warning }) [ text "Warning" ]
-         , button (buttonDefaults { bsStyle = Danger }) [ text "Danger" ]
-         , button (buttonDefaults { bsStyle = Link, href = "http://react-bootstrap.github.io/" }) [ text "Link" ]
+         , button { bsStyle: "primary" } [ text "Primary" ]
+         , button { bsStyle: "success" } [ text "Success" ]
+         , button { bsStyle: "info" } [ text "Info" ]
+         , button { bsStyle: "warning" } [ text "Warning" ]
+         , button { bsStyle: "danger" } [ text "Danger" ]
+         , button { bsStyle: "link", href: "http://react-bootstrap.github.io/" } [ text "Link" ]
          ]
        , div'
-         [ sizeButtonToolbar (Just Large) "Large button"
+         [ sizeButtonToolbar (Just "large") "Large button"
          , sizeButtonToolbar Nothing "Default button"
-         , sizeButtonToolbar (Just Small) "Small button"
-         , sizeButtonToolbar (Just XSmall) "Extra small button"
+         , sizeButtonToolbar (Just "small") "Small button"
+         , sizeButtonToolbar (Just "xsmall") "Extra small button"
          ]
        , div [ RP.className "well", RP.style { maxWidth: 400, margin: "0 auto 10px" }]
-         [ button (buttonDefaults { bsStyle = Primary, bsSize= Just Large, block = true }) [ text "Block level button"]
-         , button (buttonDefaults { bsSize = Just Large, block = true }) [ text "Block level button" ]
+         [ button { bStyle: "primary", bsSize: "large", block: true } [ text "Block level button"]
+         , button { bsSize: "large", block: true } [ text "Block level button" ]
          ]
        , div'
          [ buttonToolbar_
-           [ button (buttonDefaults { bsStyle = Primary, bsSize = Just Large, active = true}) [ text "Primary button" ]
-           , button (buttonDefaults { bsSize = Just Large, active = true}) [ text "Primary button" ]
+           [ button { bStyle: "primary", bsSize: "large", active: true} [ text "Primary button" ]
+           , button { bsSize: "large", active: true} [ text "Primary button" ]
            ]
          ]
        , div'
-         [ buttonToolbar_ $ buttonPair _{ bsStyle = Primary, bsSize = Just Large, disabled = true } _{ bsSize = Just Large, disabled = true } "Primary button"
+         [ buttonToolbar_ $ buttonPair { bStyle: "primary", bsSize: "large", disabled: true } { bsSize: "large", disabled: true } "Primary button"
          ]
        , div'
-         [ button (buttonDefaults { href = "#"}) [ text "Link" ]
+         [ button { href: "#"} [ text "Link" ]
          , button_ [ text "Button" ]
          ]
-       , div' [ leftMiddleRight id]
+       , div' [ leftMiddleRight {} ]
        , div'
          [
            buttonToolbar_
@@ -91,20 +95,20 @@ main = body' >>= render ui
            ]
          ]
        , div'
-         [ buttonToolbar_ [ leftMiddleRight _{ bsSize = Just Large } ]
-         , buttonToolbar_ [ leftMiddleRight id ]
-         , buttonToolbar_ [ leftMiddleRight _{ bsSize = Just Small } ]
-         , buttonToolbar_ [ leftMiddleRight _{ bsSize = Just XSmall } ]
+         [ buttonToolbar_ [ leftMiddleRight { bsSize: "large" } ]
+         , buttonToolbar_ [ leftMiddleRight {} ]
+         , buttonToolbar_ [ leftMiddleRight { bsSize: "small" } ]
+         , buttonToolbar_ [ leftMiddleRight { bsSize: "xsmall" } ]
          ]
        , div'
          [ buttonGroup_
            [ button_ [ text "1" ]
            , button_ [ text "2" ]
            , button_ [ text "3" ]
-           , dropdownButton (dropdownButtonDefaults { title = text "Dropdown", id = "bg-nested-dropdown" })
-             [ menuItem_ -- { eventKey: "1" }
+           , dropdownButton { title: text "Dropdown", id: "bg-nested-dropdown" }
+             [ menuItem { eventKey: "1" }
                [ text "Dropdown link" ]
-             , menuItem_ -- { eventKey: "1" }
+             , menuItem { eventKey: "1" }
                [ text "Dropdown link" ]
              ]
            ]
